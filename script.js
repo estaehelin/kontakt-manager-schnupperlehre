@@ -69,13 +69,13 @@ function loadContacts() {
     // - Falls null/undefined, dann exampleContacts verwenden
 
     // ✏️ DEINE LÖSUNG:
-    // const savedContacts = localStorage.getItem(___);
-    // if (savedContacts) {
-    //     contacts = JSON.parse(___);
-    // } else {
-    //     contacts = ___;
-    // }
-
+     const savedContacts = localStorage.getItem("contacts");
+     if (savedContacts) {
+         contacts = JSON.parse(savedContacts);
+     } else {
+         contacts = exampleContacts;
+     }
+     console.log(contacts)
     console.log("❌ TODO 1 noch nicht implementiert!");
 }
 
@@ -111,12 +111,37 @@ function displayContacts(contactsToShow = contacts) {
     // </div>
 
     // ✏️ DEINE LÖSUNG:
+    contactsList.innerHTML = '';
+
+    contactsToShow.forEach(contact => {
+
+    const contactCard = `
+        <div class="contact-card" >
+       <div class="contact-header">
+        <div>
+       <div class="contact-name">${contact.name}</div>
+          <div class="contact-info">
+         <p>📧 ${contact.email}</p>
+            <p>📱${contact.phone || 'keine Nummer'}</p>
+            <p>🏢${contact.company || 'Keine Firma'} </p>
+          </div>
+         </div>
+         <div class="contact-actions">
+           <button class="btn btn-edit" data-id="${contact.id}">Bearbeiten</button>
+           <button class="btn btn-delete" data-id="${contact.id}">Löschen</button>
+        </div>
+       </div>
+     </div>
+`;
+    contactsList.innerHTML += contactCard;
+
+    });
+
+    toggleEmptyState();
 
     console.log("❌ TODO 2 noch nicht implementiert!");
 
-    // Diese Zeile am Ende nicht vergessen:
-    toggleEmptyState();
-}
+    }
 
 // ----------------------------------------
 // TODO 3: KONTAKT ERSTELLEN ⭐⭐
@@ -132,13 +157,20 @@ function createContact(contactData) {
     // - saveContacts(), displayContacts(), updateContactCount() aufrufen
 
     // ✏️ DEINE LÖSUNG:
-    // const newContact = {
-    //     id: ___,
-    //     name: contactData.___,
-    //     email: ___,
-    //     phone: ___,
-    //     company: ___
-    // };
+     const newContact = {
+         id: Date.now(),
+         name: contactData.name,
+         email: contactData.email,
+         phone: contactData.phone,
+        company: contactData.company
+     };
+     contracts.push(newContract);
+
+     saveContacts();
+     displayContacts();
+     updateContacts();
+
+     console.log("Kontakt erstellt:",newContact.name);
 
     console.log("❌ TODO 3 noch nicht implementiert!");
 }
@@ -157,9 +189,32 @@ function updateContact(id, contactData) {
     // - saveContacts(), displayContacts(), updateContactCount() aufrufen
 
     // ✏️ DEINE LÖSUNG:
+    const contact = contacts.find(contact => contact.id== id)
+    if(contact){
+    contact.name = contactData.name;
+    contact.email = contactData.email;
+    contact.phone = contactData.phone;
+    contact.company = contactData.company;
+
+    saveContacts();
+    displayContacts();
+    updateContacts();
+
+    console.log("Kontakt aktualisiert",contact.name);
+    } else {
+    console.log("Kontakt nicht gefunden mit ID:", id);
+    }
+    }   
+    
+
+
+
+
+
+
 
     console.log("❌ TODO 4 noch nicht implementiert!");
-}
+
 
 // ----------------------------------------
 // TODO 5: KONTAKT LÖSCHEN ⭐⭐
@@ -174,9 +229,29 @@ function deleteContact(id) {
     // - saveContacts(), displayContacts(), updateContactCount() aufrufen
 
     // ✏️ DEINE LÖSUNG:
+    const contactToDelete = contacts.find(contact => contact.id == id);
+    const contactName = contactToDelete ? contactToDelete.name : "Unbekannt";
+
+    contacts = contacts.filter(contact => contact.id != id);
+
+    saveContacts();
+    displayContacts();
+    updateContacts();
+
+    console.log("Kontakt gelöscht:", contactName);
+    }
+
+
+
+
+
+
+
+
+
 
     console.log("❌ TODO 5 noch nicht implementiert!");
-}
+
 
 // ----------------------------------------
 // TODO 6: KONTAKTE SPEICHERN ⭐
@@ -191,6 +266,10 @@ function saveContacts() {
     // - Key: 'contacts', Value: JSON String
 
     // ✏️ DEINE LÖSUNG:
+    
+    localStorage.setltem(`contacts`, JSON.stringify(contacts));
+    console.log("Kontakte gespeichert:", contacs.lenght);
+
 
     console.log("❌ TODO 6 noch nicht implementiert!");
 }
@@ -208,6 +287,15 @@ function updateContactCount() {
     // - Singular/Plural beachten: 1 Kontakt vs. 2 Kontakte
 
     // ✏️ DEINE LÖSUNG:
+    
+
+
+
+
+
+
+
+
 
     console.log("❌ TODO 7 noch nicht implementiert!");
 }
